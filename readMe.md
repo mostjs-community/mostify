@@ -1,5 +1,5 @@
 
-![](https://i.imgur.com/2pnNHUu.jpg)
+![](https://i.imgur.com/Whw8XEX.jpg)
 
 ### Mostify
 Like promisify but for `most.js`

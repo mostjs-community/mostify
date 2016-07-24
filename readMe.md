@@ -103,7 +103,7 @@ files = ['hello.txt','foo.txt','bar.txt'] # make sure the files exist !
 responses = []
 
 for I from 0 til files.length
-    response.push (fs.readFile files[I],'ut8',I)
+    response.push (fs.readFile files[I],'utf8',I)
 
 
 most.mergeArray  response

@@ -4,6 +4,9 @@
 ### Mostify
 Like promisify but for `most.js`
 
+```
+npm install @partially-applied/mostify
+```
 
 ### How to use
 

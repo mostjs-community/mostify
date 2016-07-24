@@ -1,0 +1,1 @@
+node -p "require('LiveScriptWatch')(1,1,0,'../')"

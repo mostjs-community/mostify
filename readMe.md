@@ -54,7 +54,7 @@ fs.readFile 'hello.txt'
 
 **Application of Input Tracking**
 
-Input tracking is useful if you want to track the match requests to responses:
+Input tracking is useful if you want to  match requests and responses:
 
 ```livescript
 
@@ -63,7 +63,7 @@ response stream : --b--c--a--->
 
 ```
 
-The letters are paired - `--a--` request corrospondes to `--a--` in respose stream. Due to the nature of async computation its not possible to guarantee order, this is why sometimes you want to pass some variable id from request stream into the response stream as a way to track and pair them.
+The letters are paired - `--a--` in request stream corresponds to `--a--` in respose stream. Due to the nature of async computation its not possible to guarantee order, this is why sometimes you want to pass some variable id from request stream into the response stream as a way to track and pair them.
 
 ```livescript
 
@@ -79,10 +79,12 @@ for file in list-of-files
     response.push (fs.readFile file)
 
 
-most.mergeArray  response
-.map ([responses]) ->
-    console.log responses # how will you know which response is which file ?
-    # good thing the recound array element for each response is file name :)
+most.mergeArray  responses
+.map ([value,[filename]]) ->
+    console.log value # how will you match which value is the output of which file ?
+    # good thing the secound array element has filenames.
+
+
 .drain!
 
 
@@ -106,9 +108,11 @@ for I from 0 til files.length
     response.push (fs.readFile files[I],'utf8',I)
 
 
-most.mergeArray  response
-.map (response) ->
-    [output,[filename,encoding,index]] = response
+most.mergeArray  responses
+.map (value) ->
+    
+    [output,[filename,encoding,index]] = value
+
     console.log index # => 0 then 1 then 2 
     # essentially all input arguments get passed
 .drain!
@@ -141,7 +145,7 @@ Sometimes you do not want to mostify the entire module but singleton functions. 
 *Why use mostify rather than just use promises ?*
 
 
-If you are using `most.js` , creating a promise object seem like a extra unwanted step. Callbacks are the lowest level of absraction you can find and rather than wrapping callbacks using promises and then rewrapping it using `most` streams, I think its more elegant to use use `most` streams directly. It also helps that most streams are also more general while provinding all the error handling goodiness that promise provides.
+If you are using `most.js` , creating a promise object seem like a extra unwanted step. Callbacks are the lowest level of abstraction you can find and rather than wrapping callbacks using promises and then rewrapping it using `most` streams, I think its more elegant to use `most` streams directly. It also helps that most streams are also more general while providing all the error handling goodiness that promise provides.
 
 ```livescript
 #Before

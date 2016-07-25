@@ -42,7 +42,7 @@ generate-stream = (type,main-with-callback) -> ->
 mostify = (module,type = 'without error') ->
 
 	switch typeof module
-	|	'function' =>
+	| 'function' =>
 		generate-stream type,	module
 	| 'object' =>
 
@@ -61,54 +61,6 @@ mostify = (module,type = 'without error') ->
 			throw message:'Mostify: only accepts types function and object',name:'typeError'
 
 			return
-		
-
-	
-
-
 
 
 module.exports = mostify
-
-
-
-
-
-
-# readFile = mostify ((require 'fs').readFile),'with error'
-
-
-# list-of-files = ['foo.txt','bar.txt','hello.txt']
-
-# response = []
-
-# print = ([response]) ->
-
-# 	console.log response
-# 	most.empty!
-
-# for I from 0 til list-of-files.length
-# 	response.push do
-# 		(readFile list-of-files[I],'utf8',I)
-# 		.recoverWith print
-
-
-
-# most.mergeArray response
-# .recoverWith ([response]) ->
-# 	most.empty!
-# .map ([response,user-input]) ->
-
-# 	console.log response.toString!
-
-# 	console.log user-input
-
-# .drain!
-
-
-
-
-
-
-
-

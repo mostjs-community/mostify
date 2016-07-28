@@ -11,14 +11,19 @@ npm install @partially-applied/mostify
 ### How to use
 
 ```livescript
-mostify = (require '@partially-applied/mostify').withError
+
+# mostify returns an object 
+# with two functions .withError and .default
+
+mostify = (require '@partially-applied/mostify').withError 
+
+# since we are dealing with fs in this example 
+# we will be using .withError option
 
 fs-raw = require 'fs'
 
 
 fs = mostify fs-raw
-
-# if first argument is error use 'with error' flag
 
 fs.readFile 'hello.txt'
 .map ([response]) -> # returns an array

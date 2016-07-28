@@ -34,16 +34,16 @@ generate-stream = (type,main-with-callback) -> ->
 		end!
 
 	main-with-callback.apply null, user-input
-	
 
 
 
 
-mostify = (module,type = 'without error') ->
+
+mostify = _.curry (type,module) ->
 
 	switch typeof module
 	| 'function' =>
-		generate-stream type,	module
+		generate-stream type,module
 	| 'object' =>
 
 		keys = Object.keys module
@@ -63,4 +63,8 @@ mostify = (module,type = 'without error') ->
 			return
 
 
-module.exports = mostify
+module.exports = 
+	default:mostify 'no error' # since there are only two options - I haven't used 'no error' string anywhere
+	with-error:mostify 'with error'
+
+

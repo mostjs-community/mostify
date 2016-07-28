@@ -26,9 +26,8 @@ generateStream = function(type, mainWithCallback){
     });
   };
 };
-mostify = function(module, type){
+mostify = _.curry(function(type, module){
   var keys, output, i$, len$, key;
-  type == null && (type = 'without error');
   switch (typeof module) {
   case 'function':
     return generateStream(type, module);
@@ -46,5 +45,8 @@ mostify = function(module, type){
       name: 'typeError'
     };
   }
+});
+module.exports = {
+  'default': mostify('no error'),
+  withError: mostify('with error')
 };
-module.exports = mostify;

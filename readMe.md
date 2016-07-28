@@ -11,12 +11,12 @@ npm install @partially-applied/mostify
 ### How to use
 
 ```livescript
-mostify = require '@partially-applied/mostify'
+mostify = (require '@partially-applied/mostify').withError
 
 fs-raw = require 'fs'
 
 
-fs = mostify fs-raw,'with error' 
+fs = mostify fs-raw
 
 # if first argument is error use 'with error' flag
 
@@ -69,7 +69,7 @@ The letters are paired - `--a--` in request stream corresponds to `--a--` in res
 
 most = require 'most'
 
-fs = (require '@partially-applied/mostify') (require 'fs'),'with error'
+fs = (require '@partially-applied/mostify').withError (require 'fs')
 
 list-of-files = ['hello.txt','foo.txt','bar.txt']
 
@@ -148,11 +148,11 @@ Sometimes you do not want to mostify the entire module but singleton functions. 
 If you are using `most.js` , creating a promise object seem like a extra unwanted step. Callbacks are the lowest level of abstraction you can find and rather than wrapping callbacks using promises and then rewrapping it using `most` streams, I think its more elegant to use `most` streams directly. It also helps that most streams are also more general while providing all the error handling goodiness that promise provides.
 
 ```livescript
-#Before
 
+#Before
 Node.js style Callback -> Promise -> Most Stream
 
 #After
-
 Node.js style Callback  -> Most Stream
+
 ```

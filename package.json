@@ -1,6 +1,6 @@
 {
   "name": "@partially-applied/mostify",
-  "version": "0.0.3",
+  "version": "1.0.0",
   "description": "like promisify but for most.js",
   "main": "mostify.js",
   "dependencies": {

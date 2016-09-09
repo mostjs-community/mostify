@@ -8,7 +8,51 @@ Like promisify but for `most.js`
 npm install @partially-applied/mostify
 ```
 
-### How to use
+### Quick Guide in Code
+
+**JavaScript (ES5)**
+
+```javascript
+
+// mostify returns an object 
+// with two functions .withError and .default
+
+var mostify = (require ('@partially-applied/mostify')).withError 
+
+// since we are dealing with fs in this example 
+// we will be using .withError option
+
+var fsRaw = require ('fs')
+
+
+var fs = mostify(fsRaw)
+
+fs.readFile ('hello.txt')
+
+.map(function (input){  
+ response = input[0] // returns an array   
+ console.log (response.toString()) // text file string
+})
+.drain()
+
+```
+
+
+**Babel User**
+
+Using preset `es2015`, the only issue you need to worry about is imports:
+
+```javascript
+
+import mostify from "@partially-applied/mostify" // for .default
+
+import {withError as mostify} from '@partially-applied/mostify' 
+// for .withError
+
+```
+
+
+**LiveScript (ES5)**
 
 ```livescript
 
@@ -27,8 +71,8 @@ fs = mostify fs-raw
 
 fs.readFile 'hello.txt'
 .map ([response]) -> # returns an array
-    console.log response.toString() # text file string
-.drain()
+    console.log response.toString! # text file string
+.drain!
 ```
 
 ## Features
@@ -76,15 +120,16 @@ most = require 'most'
 
 fs = (require '@partially-applied/mostify').withError (require 'fs')
 
-list-of-files = ['hello.txt','foo.txt','bar.txt']
+# a list of sample files to read
+list-of-files = ['hello.txt','foo.txt','bar.txt'] 
 
-responses = []
+responses = [] # an array that will store a list of streams
 
 for file in list-of-files
     response.push (fs.readFile file)
 
 
-most.mergeArray  responses
+most.mergeArray  responses # merge all the streams in the array
 .map ([value,[filename]]) ->
     console.log value # how will you match which value is the output of which file ?
     # good thing the secound array element has filenames.

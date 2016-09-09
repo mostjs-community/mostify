@@ -70,6 +70,6 @@ mostify = _.curry (type,module) ->
 module.exports = 
 	default:mostify 'no error' # since there are only two options - I haven't used 'no error' string anywhere
 	with-error:mostify 'with error'
-	__esModule:true
+	__esModule:true # only to maintain babel compatibility - will be removed when babel hype dies down
 
 

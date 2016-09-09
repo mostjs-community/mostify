@@ -48,5 +48,6 @@ mostify = _.curry(function(type, module){
 });
 module.exports = {
   'default': mostify('no error'),
-  withError: mostify('with error')
+  withError: mostify('with error'),
+  __esModule: true
 };

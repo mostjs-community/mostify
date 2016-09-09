@@ -28,7 +28,7 @@ fs = mostify fs-raw
 fs.readFile 'hello.txt'
 .map ([response]) -> # returns an array
     console.log response.toString() # text file string
-.drain!
+.drain()
 ```
 
 ## Features
@@ -42,7 +42,7 @@ The return value as you can observe is an array, the array has two elements
 fs.readFile 'hello.txt'
 .map ([response,user-input]) -> 
     console.log user-input[0] # 'hello.txt'
-.drain!
+.drain()
 
 ```
 
@@ -53,7 +53,7 @@ or with livescript pattern matching to make it nicer
 fs.readFile 'hello.txt'
 .map ([response,[text-file]]) -> # important! returns an array
     console.log text-file # 'hello.txt'
-.drain!
+.drain()
 
 ```
 
@@ -90,7 +90,7 @@ most.mergeArray  responses
     # good thing the secound array element has filenames.
 
 
-.drain!
+.drain()
 
 
 
@@ -120,7 +120,7 @@ most.mergeArray  responses
 
     console.log index # => 0 then 1 then 2 
     # essentially all input arguments get passed
-.drain!
+.drain()
 
 ```
 

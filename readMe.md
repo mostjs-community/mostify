@@ -81,23 +81,23 @@ fs.readFile 'hello.txt'
 
 The return value as you can observe is an array, the array has two elements
 
-```livescript
+```js
 
-fs.readFile 'hello.txt'
-.map ([response,user-input]) -> 
-    console.log user-input[0] # 'hello.txt'
-.drain()
+fs.readFile('hello.txt').map(function(file) {
+    console.log(file[0][0].toString()) // file contents
+    console.log(file[1]) // [ 'hello.txt' ]
+}).drain()
 
 ```
 
-or with livescript pattern matching to make it nicer
+or with destructing to make it nicer
 
-```livescript
+```js
 
-fs.readFile 'hello.txt'
-.map ([response,[text-file]]) -> # important! returns an array
-    console.log text-file # 'hello.txt'
-.drain()
+fs.readFile('hello.txt').map(([[value],[textFile]]) => {
+    console.log(value.toString())
+    console.log(textFile) // 'hello.txt'
+}).drain()
 
 ```
 
@@ -114,31 +114,25 @@ response stream : --b--c--a--->
 
 The letters are paired - `--a--` in request stream corresponds to `--a--` in respose stream. Due to the nature of async computation its not possible to guarantee order, this is why sometimes you want to pass some variable id from request stream into the response stream as a way to track and pair them.
 
-```livescript
+```js
 
-most = require 'most'
+var most = require('most')
 
-fs = (require '@partially-applied/mostify').withError (require 'fs')
+var fs = (require('@partially-applied/mostify')).withError(require('fs'))
 
-# a list of sample files to read
-list-of-files = ['hello.txt','foo.txt','bar.txt'] 
+// a list of sample files to read
+var listOfFiles = ['hello.txt','foo.txt','bar.txt']
 
-responses = [] # an array that will store a list of streams
+var responses = [] // an array that will store a list of streams
 
-for file in list-of-files
-    response.push (fs.readFile file)
+listOfFiles.forEach(file => responses.push(fs.readFile(file)))
 
-
-most.mergeArray  responses # merge all the streams in the array
-.map ([value,[filename]]) ->
-    console.log value # how will you match which value is the output of which file ?
-    # good thing the secound array element has filenames.
-
-
-.drain()
-
-
-
+// merge all the streams in the array
+most.mergeArray(responses).map(function([[value], [filename]]) {
+    // how will you match which value is the output of which file ?
+    // good thing the secound array element has filenames.
+    console.log(filename + ":", value.toString())
+}).drain()
 
 ```
 
@@ -146,26 +140,20 @@ most.mergeArray  responses # merge all the streams in the array
 **Example with passing extra arguments**
 
 
-```livescript
+```js
 
-# we can even pass an unique index in case file names are not unique
+// we can even pass an unique index in case file names are not unique
 
-files = ['hello.txt','foo.txt','bar.txt'] # make sure the files exist !
+var files = ['hello.txt','foo.txt','bar.txt'] // make sure the files exist !
 
-responses = []
+var responses = []
 
-for I from 0 til files.length
-    response.push (fs.readFile files[I],'utf8',I)
+files.forEach((file, i) => responses.push(fs.readFile(file, 'utf8', i)))
 
-
-most.mergeArray  responses
-.map (value) ->
-    
-    [output,[filename,encoding,index]] = value
-
-    console.log index # => 0 then 1 then 2 
-    # essentially all input arguments get passed
-.drain()
+most.mergeArray(responses).map(([[value],[filename,encoding,index]]) => {
+    console.log(index) // => 0 then 1 then 2
+    // essentially all input arguments get passed
+}).drain()
 
 ```
 
